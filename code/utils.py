@@ -16,6 +16,11 @@ def open_file(name):
     return data
 
 
+def sign(x):
+    if x > 0:
+        return 1
+    return -1
+
 def categorize_and_split(data, train = 0.6, valid = 0.2):
     negative = [x[0] for x in data if x[1] == 0]
     positive = [x[0] for x in data if x[1] == 1]
@@ -26,9 +31,9 @@ def categorize_and_split(data, train = 0.6, valid = 0.2):
     pos_train = int(len(positive) * train)
     neg_valid = int(len(negative) * (train + valid))
     pos_valid = int(len(positive) * (train + valid))
-    train_set = [(x, 0) for x in negative[:neg_train]] + [(x, 1) for x in positive[:pos_train]]
-    valid_set = [(x, 0) for x in negative[neg_train:neg_valid]] + [(x, 1) for x in positive[pos_train:pos_valid]]
-    test_set = [(x, 0) for x in negative[neg_valid:]] + [(x, 1) for x in positive[pos_valid:]]
+    train_set = [(x, -1) for x in negative[:neg_train]] + [(x, 1) for x in positive[:pos_train]]
+    valid_set = [(x, -1) for x in negative[neg_train:neg_valid]] + [(x, 1) for x in positive[pos_train:pos_valid]]
+    test_set = [(x, -1) for x in negative[neg_valid:]] + [(x, 1) for x in positive[pos_valid:]]
 
     shuffle(train_set)
     shuffle(valid_set)

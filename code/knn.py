@@ -32,7 +32,9 @@ class KNN:
         return self.decide(np.mean(labels))
 
     def decide(self, p):
-        return p >= 0.5 # agree if at least 50% integrity
+        if p >= 0:
+            return 1 # agree if at least 50% integrity
+        return -1
 
 
 
