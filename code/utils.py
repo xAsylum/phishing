@@ -31,9 +31,9 @@ def sign(x):
         return 1
     return -1
 
-def plot_data(X, Y, label, xlabel, ylabel, log = True, dim = (12, 5), ticks = False):
+def plot_data(X, Y, label, xlabel, ylabel, log = True, dim = (12, 5), ticks = False, color='cornflowerblue'):
     plt.figure(figsize=dim)
-    plt.plot(X, Y, marker='o', color='cornflowerblue')
+    plt.plot(X, Y, marker='o', color=color)
     plt.title(label)
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)

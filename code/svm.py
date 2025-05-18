@@ -6,20 +6,25 @@ from feature import *
 
 class SVM:
     def __init__(self, path, train_frac = 0.6, valid_frac = 0.2):
-        self.kernel_vector = None
-        self.alpha_kernel = None
+
+
         self.out_dim = params_count + 1
+
         self.base_function = lambda x : np.array([1, *x])
-        self.kernel_function = KernelFunctionGenerator.combine([(KernelType.linear, {})])
-        self.K = None
         self.eta = 0.025
         self.epochs = 2500
         self.train, self.valid, self.test = load_file(path, train_frac, valid_frac)
         self.w = np.zeros(params_count + 1)
-        self.train_inputs = [x for x, _ in self.train] # Save for prediction
         self.alpha = 0.0001
         self.reg_res = []
         self.lc = []
+
+        # Kernel stuff
+        self.kernel_vector = None
+        self.alpha_kernel = None
+        self.K = None
+        self.kernel_function = KernelFunctionGenerator.combine([(KernelType.linear, {})])
+        self.train_inputs = [x for x, _ in self.train]  # Save for prediction
 
     def set_kernel(self, kernel):
         self.kernel_function = kernel

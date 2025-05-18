@@ -227,6 +227,26 @@ Kolejną rzeczą którą chciałem sprawdzić to jak efektywnie uczy się \textt
 Chciałbym zwrócić uwagę na to, że potencjalnie mały procent losowo wybranych danych daje już satysfakcjonujące wyniki. Podsumowując algorytm \texttt{kNN}, zaskakująco $k = 1$ daje w tym przypadku najlepsze rezultaty i to na poziomie $96\%$ dokładności, a wybór metryki nie grał u mnie większej roli.
 
 \section*{Sieci neuronowe}
-Na zakończenie
+Ostatnim algorytmem który postanowiłem napisać to sieć neuronowa. Oczywiście nie obyło się bez błędów, najbardziej warte odnotowania jest moje sprawdzenie przez kilka godzin poprawności wzorów gdyż mi błąd nie zbiegał, po czym zdałem sobie sprawę że nie robię wyrazu wolnego. Zaskakująco model potrafił osiągać wtedy nawet $91\%$ dokładności. \smallskip \\
+Zdecydowałem się na napisanie modelu sieci w którym poza ustawianiem \texttt{learning rate} i liczby \texttt{epok} będziemy mieli kontrolę nad architekturą ukrytych warstw, zatem możemy podać liczbę warstw sieci i w każdej z nich liczbę neuronów. Jako że to moje pierwsze podejście do sieci neuronowych, zdecydowałem się na początek użyć na każdej z warstw jako funkcji aktywacji funkcji \texttt{sigmoid}.
+Moim pierwszym sukcesem było dotrenowanie modelu o kolejnych warstwach rozmiaru $\{31, 200, 200, 2\}$ do $93.5\%$ dokładności. Sprawdźmy teraz jak efektywnie uczą się sieci neuronowe. Poniżej przedstawiam krzywę uczenia dla uproszczonej sieci $\{31, 120, 80, 2\}$. Pierwszy z wykresów odpowiada dokładności na zbiorze walidacyjnym, zaś drugi wartości funkcji straty względem kolejnych epok. Dokładność na zbiorze testowym: $92.7\%$
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}[b]{0.48\textwidth}
+    \includegraphics[width=0.9\textwidth]{img/neural_accuracy.png}
+    \caption{Dokładność}
+    \end{minipage}
+     \hspace{0.02\textwidth}
+    \begin{minipage}[b]{0.48\textwidth}
+    \includegraphics[width=0.9\textwidth]{img/neural_loss.png}
+    \caption{Strata}
+    \end{minipage}
+\end{figure}
+\FloatBarrier
+
+Kolejną rzeczą, na którą chciałbym zwrócić uwagę, jest czas uczenia się sieci neuronowej. Zgodnie z wykładem, samo obliczanie danych przez sieć neuronową jest bardzo szybkie, jednak wytrenowanie modeli jest czasochłonne. Pierwszy z omawianych modeli trenowałem $20$ minut przez $2000$ iteracji, zaś drugi \textendash\, ze względu na mniejszy rozmiar warstw i mniejszą liczbę iteracji, $9$ minut. W filmie z kanału \texttt{3blue1brown} mowa jest o praktyczności zastosowania gradientu w wersji \texttt{mini-batch}, jednak nie chciałem tego robić ze względu na to że póki co jakościowo sieć neuronowa wypada najgorzej. \smallskip \\
+Zagadkową dla mnie sprawą jest fakt, że nie mogę zbić błędu znacząco poniżej $0.4$. Nie stosuję żadnej regularyzacji, a jednak minimum w które wpadam jest ze stosunkowo dużym błędem. Imponujący jest jednak fakt, że model się uczy szybko i już po $300$ iteracjach jestem w stanie osiągnąć skuteczność na poziomie $90 \% $
 
 \end{document}
