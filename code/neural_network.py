@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.ma.core import argmax
+from numpy.random import shuffle
 
 from utils import load_file, Dataset
 
@@ -16,7 +17,8 @@ def sigmoid_derivative(a):
 
 class NeuralNetwork:
     def __init__(self, path, architecture, train_frac=0.6, valid_frac=0.2):
-        self.train, self.valid, self.test = load_file(path, train_frac, valid_frac)
+        self.train_set, self.valid, self.test = load_file(path, train_frac, valid_frac)
+        self.train = self.train_set
 
         # Architecture: input layer (31), hidden layers, output layer (2)
         self.architecture = [31] + architecture + [2]
@@ -96,6 +98,15 @@ class NeuralNetwork:
                 self.lc.append((epoch, acc, total_loss / m))
                 print(f"Epoch {epoch}: Accuracy ={acc}, Loss = {total_loss / m:.4f}")
 
+    def select_fraction(self, frac):
+        negative = [x for x in self.train_set if x[1] == -1]
+        positive = [x for x in self.train_set if x[1] == 1]
+        neg_split = int(len(negative) * frac)
+        pos_split = int(len(positive) * frac)
+        train_set = ([x for x in negative[:neg_split]]
+                     + [x for x in positive[:pos_split]])
+        shuffle(train_set)
+        self.train = train_set
 
     def predict(self, dataset: Dataset = Dataset.Test):
         data = None
@@ -112,7 +123,9 @@ class NeuralNetwork:
             x = [1, *x]
             x = np.array(x).reshape(-1, 1)
             a, z = self.forwardpropagation(x)
-            count += (np.argmax(a[self.L - 1]) == y)
-        return count / m
+            y_pred = np.argmax(a[self.L - 1])
+            count += (y == y_pred)
+        count /= m
+        return count
 
 
